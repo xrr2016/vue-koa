@@ -45,7 +45,7 @@ export default {
       // startTime: '',
       // endTime:'',
       newTodo: '',
-      todos: []
+      todos:[]
     }
   },
   methods: {
@@ -58,13 +58,38 @@ export default {
       }
       this.todos.push(todo)
       this.newTodo = ''
-      this.$message('添加任务成功.')
+      this.$message({
+        type:'success',
+        message:'添加任务成功.'
+      })
     },
     removeTodo(index) {
-      this.unfinishedTodos.splice(index,1)
+      this.$confirm('确定删除任务?',{
+        showCancelButton:true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type:'danger'
+      })
+      .then(()=>{
+        this.todos.splice(index,1)
+        this.$message({
+          type:'success',
+          message:'删除成功'
+        })
+      })
+      .catch(()=>{
+        this.$message({
+          type:'info',
+          message:'取消删除'
+        })
+      })
     },
     finishTodo(index) {
-      this.unfinishedTodos[index].status = true
+      this.$set(this.unfinishedTodos[index],'status',true)
+      this.$message({
+        type:'success',
+        message:'完成任务'
+      })
     },
     reStoreTodo(index) {
       this.finishedTodos[index].status = false
