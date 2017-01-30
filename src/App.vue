@@ -1,19 +1,14 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png" class="logo">
-    <!-- <Login></Login> -->
-    <Todos></Todos>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Login from './components/Login.vue'
-import Todos from './components/Todos.vue'
 export default {
   name: 'app',
   components: {
-    Login,
-    Todos
   }
 }
 </script>
