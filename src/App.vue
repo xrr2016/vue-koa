@@ -33,7 +33,4 @@ export default {
 .title{
   font-size: 24px;
 }
-.pull-right{
-  float: right;
-}
 </style>

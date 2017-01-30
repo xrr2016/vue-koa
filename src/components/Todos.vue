@@ -10,21 +10,24 @@
       @keyup.enter.native = "addTodo">
         <el-button slot="append" icon="plus" @click="addTodo"></el-button>
       </el-input>
+      <!-- 事件列表 -->
       <el-tabs type="border-card" class="todos-tabs">
           <el-tab-pane label="未完成事项" name="unfinish">
-            <ul class="todos-list" v-for="(todo,index) of unfinishedTodos">
-              <li class="todos-list-item">
-                <span class="item">{{index + 1}}. {{todo.content}}</span>
+            <ul class="todos-list" >
+              <li class="todos-list-item" v-for="(todo,index) of unfinishedTodos">
+                <span>{{ todo.type }}</span>
+                <span class="">{{index + 1}}. {{todo.content}}</span>
+                <span class="">{{ todo.planTime }}</span>
                 <span class="pull-right">
-                  <el-button   class="pull-right" type="success" icon="circle-check" @click="finishTodo(index)"></el-button>
-                  <el-button   class="pull-right" type="danger" icon="delete" @click="removeTodo(index)"></el-button>
+                  <el-button type="success" icon="circle-check" @click="finishTodo(index)"></el-button>
+                  <el-button type="danger" icon="delete" @click="removeTodo(index)"></el-button>
                 </span>
               </li>
             </ul>
           </el-tab-pane>
           <el-tab-pane label="已完成事项">
-            <ul class="todos-list" v-for="(todo,index) of finishedTodos">
-              <li class="todos-list-item">
+            <ul class="todos-list">
+              <li class="todos-list-item"  v-for="(todo,index) of finishedTodos">
                 <span class="item">{{ index + 1 }}. {{ todo.content }}</span>
                 <span class="pull-right">
                   <el-button  type="primary" @click="reStoreTodo(index)">
@@ -55,6 +58,7 @@ export default {
       if(this.newTodo === '') return
       const todo = {
         planTime: '',
+        type : '',
         content: this.newTodo,
         status: false
       }
@@ -120,10 +124,23 @@ export default {
     text-align: left;
     list-style: none;
     .todos-list-item{
+      position: relative;
+      height: 42px;
+      line-height: 42px;
+      display: block;
       font-size: 18px;
+      .pull-right{
+        position: absolute;
+        top: 0px;
+        right: 6px;
+      }
+      .el-icon{
+        display: block;
+      }
       .icono-reset{
-        width: 14px;
-        height: 13px;
+        display: block;
+        width: 14.1px;
+        height: 13.33px;
         margin: 0;
       }
     }
