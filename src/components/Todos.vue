@@ -2,25 +2,37 @@
   <el-row class="todos-content">
     <el-col :sm="24" :xs="24" :md="24" :lg="{span:12,offset:6}">
       <p class="title">欢迎你：{{name}}！你的待办事项是：</p>
-      <!-- <el-time-select placeholder="起始时间" v-model="startTime" :picker-options="{start: '08:30',step: '00:15',
-      end: '18:30',minTime:'00:00'}"></el-time-select>
-      <el-time-select placeholder="结束时间" v-model="endTime" :picker-options="{start: '08:30',step: '00:15',end: '18:30',minTime: startTime}"></el-time-select> -->
       <el-input class="totos-input"
       placeholder="请输入待办事项" v-model="newTodo"
       @keyup.enter.native = "addTodo">
         <el-button slot="append" icon="plus" @click="addTodo"></el-button>
       </el-input>
+
+      <el-select size="normal" v-model="todoType" placeholder="事件类型" clearble=true>
+        <el-option
+          v-for="type in todoTypes"
+          :label="type.label"
+          :value="type.value">
+        </el-option>
+      </el-select>
+
       <!-- 事件列表 -->
       <el-tabs type="border-card" class="todos-tabs">
           <el-tab-pane label="未完成事项" name="unfinish">
             <ul class="todos-list" >
               <li class="todos-list-item" v-for="(todo,index) of unfinishedTodos">
-                <span>{{ todo.type }}</span>
+                <el-tag type="gray" v-if="todo.type === 'normal' ">普通</el-tag>
+                <el-tag type="warning" v-else-if="todo.type === 'important' ">重要</el-tag>
+                <el-tag type="danger" v-else="todo.type === 'urgent' ">紧急</el-tag>
                 <span class="">{{index + 1}}. {{todo.content}}</span>
-                <span class="">{{ todo.planTime }}</span>
                 <span class="pull-right">
-                  <el-button type="success" icon="circle-check" @click="finishTodo(index)"></el-button>
-                  <el-button type="danger" icon="delete" @click="removeTodo(index)"></el-button>
+                  <el-tooltip effect="dark" content="完成"  placement="top">
+                    <el-button type="success" icon="circle-check" @click="finishTodo(index)"></el-button>
+                  </el-tooltop>
+
+                  <el-tooltip effect="dark" content="删除"  placement="top">
+                    <el-button type="danger" icon="delete" @click="removeTodo(index)"></el-button>
+                  </el-tooltop>
                 </span>
               </li>
             </ul>
@@ -28,11 +40,16 @@
           <el-tab-pane label="已完成事项">
             <ul class="todos-list">
               <li class="todos-list-item"  v-for="(todo,index) of finishedTodos">
+                <el-tag type="gray" v-if="todo.type === 'normal' ">普通</el-tag>
+                <el-tag type="warning" v-else-if="todo.type === 'important' ">重要</el-tag>
+                <el-tag type="danger" v-else="todo.type === 'urgent' ">紧急</el-tag>
                 <span class="item">{{ index + 1 }}. {{ todo.content }}</span>
                 <span class="pull-right">
-                  <el-button  type="primary" @click="reStoreTodo(index)">
-                    <i class="icono-reset"></i>
-                  </el-button>
+                  <el-tooltip effect="dark" content="还原"  placement="top">
+                    <el-button  type="primary" @click="reStoreTodo(index)">
+                      <i class="icono-reset"></i>
+                    </el-button>
+                  </el-tooltip>
                 </span>
               </li>
             </ul>
@@ -47,23 +64,23 @@ export default {
   data() {
     return {
       name: 'VariableX',
-      // startTime: '',
-      // endTime:'',
+      todoType:'',
       newTodo: '',
-      todos:[]
+      todos:[],
+      todoTypes:[{value:'normal',label:'普通'},{value:'important',label:'重要'},{value:'urgent',label:'紧急'}]
     }
   },
   methods: {
     addTodo() {
       if(this.newTodo === '') return
       const todo = {
-        planTime: '',
-        type : '',
+        type : this.todoType,
         content: this.newTodo,
         status: false
       }
       this.todos.push(todo)
       this.newTodo = ''
+      this.todoType = ''
       this.$message({
         type:'success',
         message:'添加任务成功.'
