@@ -2,19 +2,19 @@
   <el-row class="todos-content">
     <el-col :sm="24" :xs="24" :md="24" :lg="{span:12,offset:6}">
       <p class="title">欢迎你：{{name}}！你的待办事项是：</p>
-      <el-input class="totos-input"
-      placeholder="请输入待办事项" v-model="newTodo"
-      @keyup.enter.native = "addTodo">
-        <el-button slot="append" icon="plus" @click="addTodo"></el-button>
-      </el-input>
-
-      <el-select size="normal" v-model="todoType" placeholder="事件类型" clearble=true>
-        <el-option
+        <el-select class="todos-types" size="normal" v-model="todoType"  placeholder="类型">
+          <el-option
           v-for="type in todoTypes"
           :label="type.label"
           :value="type.value">
         </el-option>
       </el-select>
+
+      <el-input class="todos-input"
+      placeholder="请输入待办事项" v-model="newTodo"
+      @keyup.enter.native = "addTodo">
+        <el-button slot="append" icon="plus" @click="addTodo"></el-button>
+      </el-input>
 
       <!-- 事件列表 -->
       <el-tabs type="border-card" class="todos-tabs">
@@ -80,7 +80,6 @@ export default {
       }
       this.todos.push(todo)
       this.newTodo = ''
-      this.todoType = ''
       this.$message({
         type:'success',
         message:'添加任务成功.'
@@ -134,8 +133,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.todos-content{
   .el-input{
     margin: 12px 0;
+  }
+  .todos-input{
+    width:88%;
+  }
+  .todos-types{
+    width: 11%;
   }
   .todos-list{
     text-align: left;
@@ -162,4 +168,5 @@ export default {
       }
     }
   }
+}
 </style>
