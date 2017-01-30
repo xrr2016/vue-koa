@@ -144,10 +144,10 @@ export default {
     width: 10%;
   }
   .todos-time{
-    width:24%;
+    width:23%;
   }
   .todos-input{
-    width:64%;
+    width:65%;
   }
   .todos-list{
     text-align: left;
