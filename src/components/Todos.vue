@@ -12,25 +12,27 @@
       </el-input>
       <el-tabs type="border-card" class="todos-tabs">
           <el-tab-pane label="未完成事项" name="unfinish">
-            <template v-for="(todo,index) of unfinishedTodos">
-              <div class="todos-list">
+            <ul class="todos-list" v-for="(todo,index) of unfinishedTodos">
+              <li class="todos-list-item">
                 <span class="item">{{index + 1}}. {{todo.content}}</span>
                 <span class="pull-right">
-                  <el-button size="small" class="pull-right" type="primary" @click="finishTodo(index)">完成</el-button>
-                  <el-button size="small" class="pull-right" type="danger" @click="removeTodo(index)">删除</el-button>
+                  <el-button   class="pull-right" type="success" icon="circle-check" @click="finishTodo(index)"></el-button>
+                  <el-button   class="pull-right" type="danger" icon="delete" @click="removeTodo(index)"></el-button>
                 </span>
-              </div>
-            </temolate>
+              </li>
+            </ul>
           </el-tab-pane>
           <el-tab-pane label="已完成事项">
-            <template v-for="(todo,index) of finishedTodos">
-              <div class="todos-list">
+            <ul class="todos-list" v-for="(todo,index) of finishedTodos">
+              <li class="todos-list-item">
                 <span class="item">{{ index + 1 }}. {{ todo.content }}</span>
                 <span class="pull-right">
-                  <el-button size="small" type="primary" @click="reStoreTodo(index)">还原</el-button>
+                  <el-button  type="primary" @click="reStoreTodo(index)">
+                    <i class="icono-reset"></i>
+                  </el-button>
                 </span>
-              </div>
-            </temolate>
+              </li>
+            </ul>
           </el-tab-pane>
       </el-tabs>
     </el-col>
@@ -116,5 +118,14 @@ export default {
   }
   .todos-list{
     text-align: left;
+    list-style: none;
+    .todos-list-item{
+      font-size: 18px;
+      .icono-reset{
+        width: 14px;
+        height: 13px;
+        margin: 0;
+      }
+    }
   }
 </style>
