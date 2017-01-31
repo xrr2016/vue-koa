@@ -3,16 +3,56 @@ const router = require('koa-router')()
 const User = require('../mongo').User
 const Todo = require('../mongo').Todo
 
+const user = require('koa-router')()
+const todo = require('koa-router')()
 
+User.insertOne({name:'xrr',password:'1234'})
+          .exec()
+          .catch((e) => {console.log(e)})
 router.get('/',function *(next){
+  yield User.insertOne({name:'leo',password:'1234'})
+            .exec()
+            .catch((e) => {console.log(e)})
+  yield Todo.insertOne({
+        todoContent : 'code',
+        todoStatus: false,
+        todoType : 'important',
+        planTime : '12:00 - 14:00',
+        user : 'xrr2016'
+        })
+      .exec()
+      .catch(e => console.log(e))
   this.body = "Hello koa-router!"
 })
+//
+// router.get('/login/:user',function *(next){
+//     const user = this.params.user
+//     this.body = `welcome ${user}`
+// }
 
-User.insertOne({name:'xrr2016',password:'1234'})
-    .exec()
-    .then()
-    .catch(e => console.log(e))
+user.get('/user/:name',function *(next){
+  const name = this.params.name
+  this.body = `hello ${name}`
+})
 
-Todo.insertOne({todoContent:'play'}).exec()
+todo.get('/todo/create',function *(){
+  this.body = 'create a todo'
+})
+todo.post('/todo/create',function *(next){
+  Todo.insertOne({
+        todoContent : 'code',
+        todoStatus: false,
+        todoType : 'important',
+        planTime : '12:00 - 14:00',
+        user : 'xrr2016'
+        })
+      .exec()
+      .catch(e => console.log(e))
+  yield next
+})
 
-module.exports = router
+module.exports = {
+  router,
+  user,
+  todo
+}
