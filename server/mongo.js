@@ -1,7 +1,7 @@
 const config = require('./config/config')
 const Mongolass = require('mongolass')
 const mongolass = new Mongolass()
-mongolass.connect(config.mongodb)
+mongolass.connect(config.localdb)
 
 mongolass.plugin('addCreatedAt',{
   afterFind(results){
@@ -10,14 +10,16 @@ mongolass.plugin('addCreatedAt',{
     })
   },
   afterFindOne(result){
-    !!result && result.create_at = Date.now()
+     if(result){
+       result.create_at = Date.now()
+     }
     return result
   }
 })
 
 exports.User = mongolass.model('User',{
   password : { type:'string' },
-  account : { type:'string' }
+  name : { type:'string' }
 })
 
 exports.Todo = mongolass.model('Todo',{

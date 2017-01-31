@@ -1,5 +1,4 @@
-const koa = require('koa')
-const app = koa()
+const app = require('koa')()
 const router = require('./server/routes/router')
 const bodyParser = require('koa-bodyparser')
 const json = require('koa-json')
@@ -12,7 +11,6 @@ app.use(logger())
 app.use(favicon(__dirname + '/public/favicon.png'))
 
 app.use(router.routes())
-
 
 app.on('error', (err, next) => {
   console.log('error',err.message)
