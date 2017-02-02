@@ -1,8 +1,24 @@
-import { User } from '../models/mongo';
-const router = require('koa-router');
+const User = require('../models/mongo').User;
+const user = require('koa-router')();
 
-const user = new router();
-
-user.get('/',function *(next){
+user.get('/user',function *(next){
   this.body = "hello from user"
 });
+
+user.get('/user/login',function *(next){
+  this.body = "user login"
+});
+
+user.post('/user/signup',function *(next){
+    User.insertOne({name : "xrr2016",password : "0000"})
+                              .exec()
+                              .then(console.log)
+                              .catch((err) => {
+                                console.log(err);
+                              })
+    this.body = {
+      success : true
+    }
+})
+
+module.exports = user

@@ -1,8 +1,13 @@
-import { Todo } from '../models/mongo';
-const router = require('koa-router');
+const Todo = require('../models/mongo').Todo;
+const todo = require('koa-router')();
 
-const todo = new router();
 
-todo.get('/',function *(next){
+todo.get('/todo',function *(next){
   this.body = "hello from todo"
 });
+
+const createTodo = function *(next){
+  yield Todo.insertOne()
+}
+
+module.exports = todo
