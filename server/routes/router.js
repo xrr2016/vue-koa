@@ -6,22 +6,7 @@ const Todo = require('../mongo').Todo
 const user = require('koa-router')()
 const todo = require('koa-router')()
 
-User.insertOne({name:'xrr',password:'1234'})
-          .exec()
-          .catch((e) => {console.log(e)})
 router.get('/',function *(next){
-  yield User.insertOne({name:'leo',password:'1234'})
-            .exec()
-            .catch((e) => {console.log(e)})
-  yield Todo.insertOne({
-        todoContent : 'code',
-        todoStatus: false,
-        todoType : 'important',
-        planTime : '12:00 - 14:00',
-        user : 'xrr2016'
-        })
-      .exec()
-      .catch(e => console.log(e))
   this.body = "Hello koa-router!"
 })
 //
@@ -30,7 +15,7 @@ router.get('/',function *(next){
 //     this.body = `welcome ${user}`
 // }
 
-user.get('/user/:name',function *(next){
+user.get('/:name',function *(next){
   const name = this.params.name
   this.body = `hello ${name}`
 })
