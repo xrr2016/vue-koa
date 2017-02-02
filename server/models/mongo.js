@@ -1,4 +1,4 @@
-const config = require('./config/config')
+const config = require('../config/config')
 const Mongolass = require('mongolass')
 const mongolass = new Mongolass()
 const User = require('./userModel')
